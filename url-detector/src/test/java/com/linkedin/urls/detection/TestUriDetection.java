@@ -688,21 +688,19 @@ public class TestUriDetection {
   }
 
   @DataProvider
-  private Object[][] getSchemaDetectionBySuffixScenarios() {
+  private Object[][] getUrlsForSchemaDetectionInHtml() {
     String domain = "linkedin.com";
     return Stream.of("http://", "https://", "ftp://", "ftps://", "http%3a//", "https%3a//", "ftp%3a//", "ftps%3a//")
       .map(validScheme -> new Object[][]{
-        {validScheme + domain, validScheme + domain},
-        {validScheme.toUpperCase() + domain, validScheme.toUpperCase() + domain},
-        {"sometext" + validScheme + domain, validScheme + domain},
-        {"sometext" + validScheme.toUpperCase() + domain, validScheme.toUpperCase() + domain}
+        {"<a href=https://" + domain + ">link</a>", "https://" + domain},
+        {"<a href=\"https://" + domain + "\">link</a>", "https://" + domain},
       }).flatMap(Arrays::stream)
       .toArray(Object[][]::new);
   }
 
-  @Test(dataProvider = "getSchemaDetectionBySuffixScenarios")
-  public void testSchemaDetectionBySuffix(String text, String expected) {
-    runTest(text, UrlDetectorOptions.Default, expected);
+  @Test(dataProvider = "getSchemaDetectionInHtml")
+  public void testSchemaDetectionInHtml(String text, String expected) {
+    runTest(text, UrlDetectorOptions.HTML, expected);
   }
 
   private void runTest(String text, UrlDetectorOptions options, String... expected) {
