@@ -1,6 +1,6 @@
-# URL Detector
+__NOTE__: This is a fork of the original https://github.com/linkedin/URL-Detector, which seems to be abandoned.  This fork was created to allow continued maintenance by the OS community.
 
-NOTE: This is a fork of the original https://github.com/linkedin/URL-Detector, which seems to be abandoned.  This fork was created to allow continued maintenance by the OS community.
+# URL Detector
 
 The url detector is a library created by the Linkedin Security Team to detect and extract urls in a long piece of text.
 
@@ -74,7 +74,7 @@ To use the latest release, add the following dependency to your pom.xml:
     <dependency>
         <groupId>io.github.url-detector</groupId>
         <artifactId>url-detector</artifactId>
-        <version>0.1.20</version>
+        <version>0.1.22-SNAPSHOT</version>
     </dependency>
 ```
 

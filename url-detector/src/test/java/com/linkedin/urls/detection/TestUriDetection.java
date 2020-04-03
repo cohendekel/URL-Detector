@@ -687,6 +687,15 @@ public class TestUriDetection {
     runTest("://VIVE MARINE LE PEN//:@.", UrlDetectorOptions.Default);
   }
 
+  /*
+   * https://github.com/URL-Detector/URL-Detector/issues/5
+   */
+  @Test
+  private void testDalesKillerString3() {
+    // kills loop in UrlDetector.readDefault()  
+    runTest(" :u ", UrlDetectorOptions.ALLOW_SINGLE_LEVEL_DOMAIN);
+  }
+  
   @DataProvider
   private Object[][] getUrlsForSchemaDetectionInHtml() {
     String domain = "linkedin.com";
@@ -714,4 +723,5 @@ public class TestUriDetection {
 
     Assert.assertEqualsNoOrder(foundArray, expected);
   }
+  
 }
