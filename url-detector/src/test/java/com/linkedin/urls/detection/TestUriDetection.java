@@ -10,7 +10,11 @@
 package com.linkedin.urls.detection;
 
 import com.linkedin.urls.Url;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
+
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -681,6 +685,23 @@ public class TestUriDetection {
   @Test
   public void testIssue16() {
     runTest("://VIVE MARINE LE PEN//:@.", UrlDetectorOptions.Default);
+  }
+
+  @DataProvider
+  private Object[][] getSchemaDetectionBySuffixScenarios() {
+    String domain = "linkedin.com";
+    return Stream.of("http://", "https://", "ftp://", "ftps://", "http%3a//", "https%3a//", "ftp%3a//", "ftps%3a//")
+      .map(validScheme -> new Object[][]{
+        {validScheme + domain + "/", validScheme + domain + "/"},
+        {validScheme.toUpperCase() + domain + "/", validScheme.toUpperCase() + domain + "/"},
+        {"sometext" + validScheme + domain + "/", validScheme + domain + "/"}
+      }).flatMap(Arrays::stream)
+      .toArray(Object[][]::new);
+  }
+
+  @Test(dataProvider = "getSchemaDetectionBySuffixScenarios")
+  public void testSchemaDetectionBySuffix(String text, String expected) {
+    runTest(text, UrlDetectorOptions.Default, expected);
   }
 
   private void runTest(String text, UrlDetectorOptions options, String... expected) {
