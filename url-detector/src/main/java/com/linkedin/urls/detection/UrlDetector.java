@@ -450,11 +450,15 @@ public class UrlDetector {
         _buffer.append(curr);
         if (numSlashes == 1) {
           //return only if its an approved protocol. This can be expanded to allow others
-          if (VALID_SCHEMES.contains(_buffer.toString().toLowerCase())) {
+          int schemeStartIndex  = findValidSchemeStartIndex(_buffer.toString());
+          if(schemeStartIndex >=0) {
+            _buffer.delete(0,schemeStartIndex );
             _currentUrlMarker.setIndex(UrlPart.SCHEME, 0);
             return true;
           }
-          return false;
+          else {
+            return false;
+          }
         }
         numSlashes++;
       } else if (curr == ' ' || checkMatchingCharacter(curr) != CharacterMatch.CharacterNotMatched) {
@@ -473,6 +477,14 @@ public class UrlDetector {
     }
 
     return false;
+  }
+
+  private Integer findValidSchemeStartIndex(final String optionalScheme) {
+    final String optionalSchemeLowercase = optionalScheme.toLowerCase();
+    return VALID_SCHEMES.stream()
+      .filter(validScheme -> optionalSchemeLowercase.endsWith(validScheme))
+      .map(optionalSchemeLowercase::lastIndexOf)
+      .findFirst().orElse(-1);
   }
 
   /**

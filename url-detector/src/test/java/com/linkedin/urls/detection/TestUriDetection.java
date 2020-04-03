@@ -164,8 +164,7 @@ public class TestUriDetection {
   @Test
   public void testIncorrectParsingHtmlWithBadOptions() {
     runTest("<a href=\"http://www.google.com/\">google.com</a>", UrlDetectorOptions.Default,
-    //Doesn't have the http since it was read as "http:// and goes to the end.
-        "www.google.com/\">google.com</a>");
+        "http://www.google.com/\">google.com</a>");
   }
 
   @Test
@@ -555,8 +554,7 @@ public class TestUriDetection {
   @Test
   public void testIpv6IncorrectParsingHtmlWithBadOptions() {
     runTest("<a href=\"http://[::AAbb:]/\">google.com</a>", UrlDetectorOptions.Default,
-    //Doesn't have the http since it was read as "http:// and goes to the end.
-        "[::AAbb:]/\">google.com</a>");
+        "http://[::AAbb:]/\">google.com</a>");
   }
 
   @Test
